@@ -1,9 +1,8 @@
 # SkullGame
 
-A game in which the player is followed by skulls.
+A game in which the player's mouse cursor is followed by skulls.
 
-![2021-10-23 (4)](https://user-images.githubusercontent.com/14290060/138557526-29d621c1-8cae-4d97-80a2-a5cf1a30e722.png)
-
+![Screenshot 2021-10-23 162930](https://user-images.githubusercontent.com/14290060/138560628-c0beb0b3-2814-4292-962c-d6fde2e6e207.png)
 
 # Credit
 
