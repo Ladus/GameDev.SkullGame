@@ -42,7 +42,7 @@ int main(void)
 		// Update
 		//----------------------------------------------------------------------------------
 
-		//Skull and mouse movement
+		// Mouse movement
 		targetPosition = Vector2Subtract(GetMousePosition(), { 16, 16 });
 
 		// Skull spawn
