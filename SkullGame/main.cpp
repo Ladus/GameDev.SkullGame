@@ -4,6 +4,8 @@
 #include "skull.cpp"
 #include <list>
 
+const bool Debug = false;
+
 int main(void)
 {
 	// Initialization
@@ -11,7 +13,8 @@ int main(void)
 	const int screenWidth = 960;
 	const int screenHeight = 480;
 
-	InitWindow(screenWidth, screenHeight, "RLParticles - Roopis Playground");
+	InitWindow(screenWidth, screenHeight, "Skull Game");
+	SetTargetFPS(60);
 
 	// Game variables
 	Color backgroundColor = { 50, 36, 89, 255 };
@@ -19,7 +22,7 @@ int main(void)
 
 	Color textColor = { 218, 224, 234, 255 };
 
-	Vector2 targetPosition = { 0,0 };
+	Vector2 targetPosition = Vector2Subtract(GetMousePosition(), { 16, 16 });
 
 	bool lost = false;
 
@@ -27,13 +30,9 @@ int main(void)
 
 	// Skulls
 	std::list<Skull> skullList;
-	skullList.emplace_back();
+	skullList.emplace_back(&targetPosition);
 	float timeUntilSkullSpawn = 4;
 	float spawnMultiplier = 1.0f;
-
-
-	SetTargetFPS(120);               // Set our game to run at 60 frames-per-second
-	//---------------------------------------------------------------------------------------
 
 	// Main game loop
 	while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -49,7 +48,7 @@ int main(void)
 		if (GetKeyPressed() == KEY_R) {
 			lost = false;
 			skullList.clear();
-			skullList.emplace_back();
+			skullList.emplace_back(&targetPosition);
 			timeUntilSkullSpawn = 4;
 			spawnMultiplier = 1.0f;
 			score = 0;
@@ -57,27 +56,24 @@ int main(void)
 
 		spawnMultiplier -= 0.02f * GetFrameTime();
 		timeUntilSkullSpawn -= 1 * GetFrameTime();
-		if (timeUntilSkullSpawn < 0) 
+		if (timeUntilSkullSpawn < 0 && !lost) 
 		{
-			skullList.emplace_back();
+			skullList.emplace_back(&targetPosition);
 			timeUntilSkullSpawn = (float)GetRandomValue(1, 3) * spawnMultiplier;
 		}
 
 		for (auto& skull : skullList)
 		{
-			skull.Position = Vector2MoveTowards(skull.Position, targetPosition, skull.Speed * GetFrameTime());
-			skull.Position = Vector2Add(skull.Position, Vector2Multiply(skull.RandomDeviation, {GetFrameTime(), GetFrameTime()}));
-
-			if (skull.Speed < skull.SpeedLimit) {
-				skull.Speed += skull.SpeedIncrement * GetFrameTime();
-			}
-
-			// Losing
+			//Update skull movement
+			skull.Update();
+			
+			// Lose if skull is too code
 			if (Vector2Distance(targetPosition, skull.Position) < 16) {
 				lost = true;
 			}
 		}
 
+		// Lose if the player goes too close to the border
 		if (GetMousePosition().x < 10
 			|| (int)GetMousePosition().x > GetScreenWidth() - 10
 			|| GetMousePosition().y < 10
@@ -91,41 +87,43 @@ int main(void)
 			score += 1000 * GetFrameTime();
 		}
 
-		// Score
-
-		//----------------------------------------------------------------------------------
 
 		// Draw
-		//----------------------------------------------------------------------------------
 		BeginDrawing();
 
-
+		// Draw playing of lost screen
 		if (!lost) {
 			ClearBackground(backgroundColor);
-			DrawText(TextFormat("Run away for the skulls Deepjeee!!!  Score: %i", (int)score), 10, 10, 20, textColor);
+			DrawText(TextFormat("Run away for the skulls!!!  Score: %i", (int)score), 20, 20, 20, textColor);
 		}
 		else {
 			ClearBackground(backgroundColorLost);
-			DrawText(TextFormat("You died.... :(   Final Score: %i", (int)score), 10, 10, 20, textColor);
+			DrawText(TextFormat("You died.... :(  Press 'R' to restart.  Final Score: %i", (int)score), 20, 20, 20, textColor);
 		}
 
-		for (const auto& skull : skullList)
+		// Draw losing borders
+		DrawRectangle(0, 0, GetScreenWidth(), 10, BLACK);
+		DrawRectangle(GetScreenWidth() - 10, 0, 10, GetScreenHeight(), BLACK);
+		DrawRectangle(0, GetScreenHeight() - 10, GetScreenWidth(), 10, BLACK);
+		DrawRectangle(0, 0, 10, GetScreenHeight(), BLACK);
+
+		//Draw skulls
+		for (auto& skull : skullList)
 		{
-			DrawTextureEx(skull.Texture, skull.Position, 0, 4, WHITE);
+			skull.Draw();
 		}
 
 		// Debug
-		DrawText(TextFormat("Mouse: %f, %f", GetMousePosition().x, GetMousePosition().y), 10, 400, 20, textColor);
-		DrawText(TextFormat("TimeToSpawn: %f", timeUntilSkullSpawn), 10, 420, 20, textColor);
+		if (Debug) {
+			DrawText(TextFormat("Mouse: %f, %f", GetMousePosition().x, GetMousePosition().y), 20, 400, 20, textColor);
+			DrawText(TextFormat("TimeToSpawn: %f", timeUntilSkullSpawn), 20, 420, 20, textColor);
+		}
+		
 
 		EndDrawing();
-		//----------------------------------------------------------------------------------
 	}
 
-	// De-Initialization
-	//--------------------------------------------------------------------------------------
-	CloseWindow();        // Close window and OpenGL context
-	//--------------------------------------------------------------------------------------
-
+	// Close window and OpenGL context
+	CloseWindow(); 
 	return 0;
 }

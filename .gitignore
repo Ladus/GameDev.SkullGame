@@ -422,3 +422,6 @@ FodyWeavers.xsd
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+!*raylib.dll*
+!*raylib.lib*
