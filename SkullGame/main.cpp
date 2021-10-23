@@ -33,7 +33,7 @@ int main(void)
 	// Skulls
 	std::list<Skull> skullList;
 	skullList.emplace_back(&targetPosition, &SkullTexture);
-	float timeUntilSkullSpawn = 4;
+	float timeUntilSkullSpawn = 6;
 	float spawnMultiplier = 1.0f;
 
 	// Main game loop
@@ -56,12 +56,12 @@ int main(void)
 			score = 0;
 		}
 
-		spawnMultiplier -= 0.02f * GetFrameTime();
+		spawnMultiplier -= 0.015f * GetFrameTime();
 		timeUntilSkullSpawn -= 1 * GetFrameTime();
 		if (timeUntilSkullSpawn < 0 && !lost) 
 		{
 			skullList.emplace_back(&targetPosition, &SkullTexture);
-			timeUntilSkullSpawn = (float)GetRandomValue(1, 3) * spawnMultiplier;
+			timeUntilSkullSpawn = (float)GetRandomValue(1, 5) * spawnMultiplier;
 		}
 
 		for (auto& skull : skullList)
