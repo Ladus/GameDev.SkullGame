@@ -28,9 +28,11 @@ int main(void)
 
 	float score = 0;
 
+	Texture2D SkullTexture = LoadTexture("Assets/skull_stage.png");
+
 	// Skulls
 	std::list<Skull> skullList;
-	skullList.emplace_back(&targetPosition);
+	skullList.emplace_back(&targetPosition, &SkullTexture);
 	float timeUntilSkullSpawn = 4;
 	float spawnMultiplier = 1.0f;
 
@@ -48,7 +50,7 @@ int main(void)
 		if (GetKeyPressed() == KEY_R) {
 			lost = false;
 			skullList.clear();
-			skullList.emplace_back(&targetPosition);
+			skullList.emplace_back(&targetPosition, &SkullTexture);
 			timeUntilSkullSpawn = 4;
 			spawnMultiplier = 1.0f;
 			score = 0;
@@ -58,7 +60,7 @@ int main(void)
 		timeUntilSkullSpawn -= 1 * GetFrameTime();
 		if (timeUntilSkullSpawn < 0 && !lost) 
 		{
-			skullList.emplace_back(&targetPosition);
+			skullList.emplace_back(&targetPosition, &SkullTexture);
 			timeUntilSkullSpawn = (float)GetRandomValue(1, 3) * spawnMultiplier;
 		}
 
