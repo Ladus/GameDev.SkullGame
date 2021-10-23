@@ -11,9 +11,9 @@ public:
 
 	Vector2 Position;
 
-	float Speed = (float)GetRandomValue(2, 5) / 10;
+	float Speed = (float)GetRandomValue(2, 6) / 10;
 	float SpeedIncrement = (float)GetRandomValue(1, 10) / 10;
-	float SpeedLimit = (float)GetRandomValue(10, 30) / 10;
+	float SpeedLimit = (float)GetRandomValue(10, 40) / 10;
 
 	float RotationSpeed = 0;
 	float RotationSpeedMax = (float)GetRandomValue(5, 10);
@@ -28,7 +28,23 @@ public:
 		: TargetPosition(targetPosition)
 		, SkullTexture(skullTexture) {
 
-		Position = { (float)GetRandomValue(0, GetScreenWidth()), 0.0f };
+		int spawnDirection = GetRandomValue(1, 4);
+		switch (spawnDirection) {
+		case 1:
+			Position = { (float)GetRandomValue(0, GetScreenWidth()), -8.0f };
+			break;
+		case 2:
+			Position = { (float)GetScreenWidth(), (float)GetRandomValue(0, GetScreenHeight()) };
+			break;
+		case 3:
+			Position = { (float)GetRandomValue(0, GetScreenWidth()), (float)GetScreenHeight() + 8.0f };
+			break;
+		case 4:
+			Position = { -8.0f, (float)GetRandomValue(0, GetScreenHeight()) };
+			break;
+		default:
+			Position = { (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 };
+		}
 	}
 
 	void Update() override {
@@ -50,8 +66,6 @@ public:
 
 		// Oscilate the rotationSpeed
 		RotationSpeed = RotationSpeedMax * (LocalTime / LocalTimeMax);
-		//RotationSpeed = 2.0f;
-
 
 		Vector2 directionLeft = Vector2Rotate(Direction, -RotationSpeed * GetFrameTime());
 		Vector2 directionRight = Vector2Rotate(Direction, RotationSpeed * GetFrameTime());
@@ -71,8 +85,5 @@ public:
 
 	void Draw() override {
 		DrawTextureEx(*SkullTexture, Position, 0, 4, WHITE);
-
-		DrawRectangle(20, 420, 1000, 20, BLACK);
-		DrawText(TextFormat("%f", Speed), 20, 420, 20, WHITE);
 	}
 };
