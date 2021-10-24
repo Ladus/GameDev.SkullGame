@@ -1,7 +1,7 @@
 #include "raylib.h"
 #include "raymath.h"
 
-#include "GameObject.cpp"
+#include "GameObject.h"
 
 class Skull : public GameObject {
 public:

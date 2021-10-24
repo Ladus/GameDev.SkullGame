@@ -2,6 +2,7 @@
 #include "raymath.h"
 
 #include "skull.cpp"
+#include "Player.cpp"
 #include <list>
 
 const bool Debug = false;
@@ -29,6 +30,10 @@ int main(void)
 	float score = 0;
 
 	Texture2D SkullTexture = LoadTexture("Assets/skull_stage.png");
+	Texture2D PlayerTexture = LoadTexture("Assets/candy_corn_stage.png");
+
+	// Player
+	Player Player(&PlayerTexture);
 
 	// Skulls
 	std::list<Skull> skullList;
@@ -110,6 +115,9 @@ int main(void)
 		DrawRectangle(GetScreenWidth() - 10, 0, 10, GetScreenHeight(), BLACK);
 		DrawRectangle(0, GetScreenHeight() - 10, GetScreenWidth(), 10, BLACK);
 		DrawRectangle(0, 0, 10, GetScreenHeight(), BLACK);
+
+		// Draw player
+		Player.Draw();
 
 		//Draw skulls
 		for (auto& skull : skullList)
