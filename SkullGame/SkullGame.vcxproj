@@ -147,13 +147,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Image Include="Assets\skull_stage.png" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="GameObject.h" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Player.h" />
     <ClCompile Include="Skull.cpp" />
+    <ClCompile Include="Skull.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Debug.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
