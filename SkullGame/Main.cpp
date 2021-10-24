@@ -1,11 +1,11 @@
+#include "Debug.h"
+
 #include "raylib.h"
 #include "raymath.h"
 
-#include "skull.cpp"
-#include "Player.cpp"
+#include "Skull.h"
+#include "Player.h"
 #include <list>
-
-const bool Debug = false;
 
 int main(void)
 {
@@ -23,21 +23,20 @@ int main(void)
 
 	Color textColor = { 218, 224, 234, 255 };
 
-	Vector2 targetPosition = Vector2Subtract(GetMousePosition(), { 16, 16 });
-
 	bool lost = false;
 
 	float score = 0;
 
 	Texture2D SkullTexture = LoadTexture("Assets/skull_stage.png");
 	Texture2D PlayerTexture = LoadTexture("Assets/candy_corn_stage.png");
+	Texture2D BulletTexture = LoadTexture("Assets/candy_stage.png");
 
 	// Player
-	Player Player(&PlayerTexture);
+	Player Player(&PlayerTexture, &BulletTexture);
 
 	// Skulls
 	std::list<Skull> skullList;
-	skullList.emplace_back(&targetPosition, &SkullTexture);
+	skullList.emplace_back(&Player.Position, &SkullTexture);
 	float timeUntilSkullSpawn = 4;
 	float spawnMultiplier = 1.0f;
 
@@ -48,14 +47,14 @@ int main(void)
 		//----------------------------------------------------------------------------------
 
 		// Mouse movement
-		targetPosition = Vector2Subtract(GetMousePosition(), { 16, 16 });
+		//targetPosition = Vector2Subtract(GetMousePosition(), { 16, 16 });
 
 		// Skull spawn
 
 		if (GetKeyPressed() == KEY_R) {
 			lost = false;
 			skullList.clear();
-			skullList.emplace_back(&targetPosition, &SkullTexture);
+			skullList.emplace_back(&Player.Position, &SkullTexture);
 			timeUntilSkullSpawn = 4;
 			spawnMultiplier = 1.0f;
 			score = 0;
@@ -65,19 +64,23 @@ int main(void)
 			spawnMultiplier -= 0.015f * GetFrameTime();
 		}
 		timeUntilSkullSpawn -= 1 * GetFrameTime();
-		if (timeUntilSkullSpawn < 0 && !lost) 
+		if (timeUntilSkullSpawn < 0 && !lost)
 		{
-			skullList.emplace_back(&targetPosition, &SkullTexture);
-			timeUntilSkullSpawn = ((float)GetRandomValue(0.5f, 30) / 10) * spawnMultiplier;
+			skullList.emplace_back(&Player.Position, &SkullTexture);
+			timeUntilSkullSpawn = ((float)GetRandomValue(1, 30) / 10) * spawnMultiplier;
 		}
 
+		// Player update
+		Player.Update();
+
+		// Skulls update
 		for (auto& skull : skullList)
 		{
 			//Update skull movement
 			skull.Update();
-			
+
 			// Lose if skull is too code
-			if (Vector2Distance(targetPosition, skull.Position) < 16) {
+			if (Vector2Distance(Player.Position, skull.Position) < 16) {
 				lost = true;
 			}
 		}
@@ -86,7 +89,7 @@ int main(void)
 		if (GetMousePosition().x < 10
 			|| (int)GetMousePosition().x > GetScreenWidth() - 10
 			|| GetMousePosition().y < 10
-			|| (int) GetMousePosition().y > GetScreenHeight() - 10)
+			|| (int)GetMousePosition().y > GetScreenHeight() - 10)
 		{
 			lost = true;
 		}
@@ -126,16 +129,15 @@ int main(void)
 		}
 
 		// Debug
-		if (Debug) {
-			DrawText(TextFormat("Mouse: %f, %f", GetMousePosition().x, GetMousePosition().y), 20, 400, 20, textColor);
-			DrawText(TextFormat("TimeToSpawn: %f", timeUntilSkullSpawn), 20, 420, 20, textColor);
-		}
-		
+#ifdef DEBUG
+		DrawText(TextFormat("Mouse: %f, %f", GetMousePosition().x, GetMousePosition().y), 20, 400, 20, textColor);
+		DrawText(TextFormat("TimeToSpawn: %f", timeUntilSkullSpawn), 20, 420, 20, textColor);
+#endif // DEBUG
 
 		EndDrawing();
 	}
 
 	// Close window and OpenGL context
-	CloseWindow(); 
+	CloseWindow();
 	return 0;
 }
