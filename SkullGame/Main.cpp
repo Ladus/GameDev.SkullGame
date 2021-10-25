@@ -86,10 +86,10 @@ int main(void)
 		}
 
 		// Lose if the player goes too close to the border
-		if (GetMousePosition().x < 10
-			|| (int)GetMousePosition().x > GetScreenWidth() - 10
-			|| GetMousePosition().y < 10
-			|| (int)GetMousePosition().y > GetScreenHeight() - 10)
+		if (Player.Position.x < 10
+			|| (int)Player.Position.x > GetScreenWidth() - 10
+			|| Player.Position.y < 10
+			|| (int)Player.Position.y > GetScreenHeight() - 10)
 		{
 			lost = true;
 		}
