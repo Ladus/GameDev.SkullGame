@@ -37,18 +37,28 @@ void Player::Update() {
 		Vector2 targetVector = Vector2Subtract(GetMousePosition(), Position);
 		targetVector = Vector2Normalize(targetVector);
 
-		BulletList.emplace_back(BulletTexture, Vector2 {Position.x + 8, Position.y + 8}, targetVector, (float)GetRandomValue(500, 820));
+		BulletList.emplace_back(BulletTexture, Vector2{ Position.x + 8, Position.y + 8 }, targetVector, (float)GetRandomValue(500, 820));
 	}
 
 	// Update all bullets
-	for (auto &bullet : BulletList) {
-		bullet.Update();
+	/*for (auto &bullet : BulletList) {
+		auto i = &bullet - &BulletList[0];*/
 
-		if (bullet.Position.x < -20
-			|| bullet.Position.x > (float)GetScreenWidth() + 20
-			|| bullet.Position.y < -20
-			|| bullet.Position.y > (float)GetScreenHeight() + 20) {
-			// TODO: Remove bullets that are off screen
+	std::list<Bullet>::iterator it;
+
+	for (it = BulletList.begin(); it != BulletList.end(); it++) {
+
+		it->Update();
+
+		if (it->Position.x < -20
+			|| it->Position.x >(float)GetScreenWidth() + 20
+			|| it->Position.y < -20
+			|| it->Position.y >(float)GetScreenHeight() + 20) {
+
+			it = BulletList.erase(it);
+			if (it == BulletList.end()) {
+				break;
+			}
 		}
 	}
 
@@ -58,7 +68,7 @@ void Player::Draw() {
 	DrawTextureEx(*PlayerTexture, Position, 0, 4, WHITE);
 
 	// Draw all bullets
-	for (auto &bullet : BulletList) {
+	for (auto& bullet : BulletList) {
 		bullet.Draw();
 	}
 
