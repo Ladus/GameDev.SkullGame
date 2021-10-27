@@ -1,12 +1,12 @@
 #pragma once
-#include "Debug.h"
+#include "../Core/Debug.h"
 
 #include <list>
 
 #include "raylib.h"
 #include "raymath.h"
 
-#include "GameObject.h"
+#include "../Core/GameObject.h"
 #include "Bullet.h"
 
 class Player : public GameObject {

@@ -1,4 +1,4 @@
-#include "Debug.h"
+#include "Core/Debug.h"
 #include "raylib.h"
 #include "SkullGame.h"
 

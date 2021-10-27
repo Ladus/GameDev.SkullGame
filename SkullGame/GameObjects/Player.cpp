@@ -1,9 +1,9 @@
-#include "Debug.h"
+#include "../Core/Debug.h"
 
 #include "raylib.h"
 #include "raymath.h"
 
-#include "GameObject.h"
+#include "../Core/GameObject.h"
 #include "Player.h"
 
 void Player::Update() {
@@ -36,7 +36,7 @@ void Player::Update() {
 
 		Vector2 targetVector = Vector2Subtract(GetMousePosition(), Position);
 		targetVector = Vector2Normalize(targetVector);
-		targetVector = Vector2Add(targetVector, Vector2{ (float) GetRandomValue(-100,100) / 1000, (float)GetRandomValue(-100,100) / 1000 });
+		targetVector = Vector2Add(targetVector, Vector2{ (float) GetRandomValue(-100,100) / 700, (float)GetRandomValue(-100,100) / 1000 });
 
 		BulletList.emplace_back(&BulletTexture, Vector2{ Position.x + 8, Position.y + 8 }, targetVector, (float)GetRandomValue(500, 820));
 	}

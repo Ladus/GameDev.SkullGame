@@ -1,10 +1,10 @@
 #pragma once
-#include "Debug.h"
+#include "../Core/Debug.h"
 
 #include "raylib.h"
 #include "raymath.h"
 
-#include "GameObject.h"
+#include "../Core/GameObject.h"
 
 class Bullet : public GameObject
 {

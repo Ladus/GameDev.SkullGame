@@ -1,12 +1,12 @@
-#include "Debug.h"
+#include "Core/Debug.h"
 
 #include "raylib.h"
 #include "raymath.h"
 
 #include "SkullGame.h"
 
-#include "Skull.h"
-#include "Player.h"
+#include "GameObjects/Skull.h"
+#include "GameObjects/Player.h"
 #include <list>
 #include <memory>
 
