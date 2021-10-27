@@ -36,13 +36,10 @@ void Player::Update() {
 
 		Vector2 targetVector = Vector2Subtract(GetMousePosition(), Position);
 		targetVector = Vector2Normalize(targetVector);
+		targetVector = Vector2Add(targetVector, Vector2{ (float) GetRandomValue(-100,100) / 1000, (float)GetRandomValue(-100,100) / 1000 });
 
-		BulletList.emplace_back(BulletTexture, Vector2{ Position.x + 8, Position.y + 8 }, targetVector, (float)GetRandomValue(500, 820));
+		BulletList.emplace_back(&BulletTexture, Vector2{ Position.x + 8, Position.y + 8 }, targetVector, (float)GetRandomValue(500, 820));
 	}
-
-	// Update all bullets
-	/*for (auto &bullet : BulletList) {
-		auto i = &bullet - &BulletList[0];*/
 
 	std::list<Bullet>::iterator it;
 
@@ -65,7 +62,7 @@ void Player::Update() {
 }
 
 void Player::Draw() {
-	DrawTextureEx(*PlayerTexture, Position, 0, 4, WHITE);
+	DrawTextureEx(PlayerTexture, Position, 0, 4, WHITE);
 
 	// Draw all bullets
 	for (auto& bullet : BulletList) {

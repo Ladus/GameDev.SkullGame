@@ -11,14 +11,20 @@
 
 class Player : public GameObject {
 public:
+	explicit Player(Texture2D& playerTexture, Texture2D& bulletTexture)
+		: PlayerTexture(playerTexture)
+		, BulletTexture(bulletTexture) { }
 
-	Texture2D* PlayerTexture;
-	Texture2D* BulletTexture;
+	void Update() override;
+	void Draw() override;
+
+	Texture2D PlayerTexture;
+	Texture2D BulletTexture;
 
 	// Position
 	Vector2 Position = {
-		((float)GetScreenWidth() / 2) - ((float)PlayerTexture->width / 2),
-		((float)GetScreenHeight() / 2) - ((float)PlayerTexture->height / 2)
+		((float)GetScreenWidth() / 2) - ((float)PlayerTexture.width / 2),
+		((float)GetScreenHeight() / 2) - ((float)PlayerTexture.height / 2)
 	};
 	Vector2 MovementDirection = { 0, 0 };
 
@@ -31,11 +37,4 @@ public:
 	Vector2 MouseDirection = { 0, 1 };
 
 	std::list<Bullet> BulletList;
-
-	explicit Player(Texture2D* playerTexture, Texture2D* bulletTexture)
-		: PlayerTexture(playerTexture)
-		, BulletTexture(bulletTexture) { }
-
-	void Update() override;
-	void Draw() override;
 };
