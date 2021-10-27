@@ -1,15 +1,15 @@
 #pragma once
 
-#include "Debug.h"
+#include "Core/Debug.h"
 
 #include <memory>
 
 #include "raylib.h"
 #include "raymath.h"
 
-#include "GameObject.h"
-#include "Player.h"
-#include "Skull.h"
+#include "Core/GameObject.h"
+#include "GameObjects/Player.h"
+#include "GameObjects/Skull.h"
 
 
 class SkullGame : public GameObject

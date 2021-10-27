@@ -1,28 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="GameObject.h" />
+    <ClCompile Include="Core\GameObject.h" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Skull.cpp">
+    <ClCompile Include="GameObjects\Skull.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Skull.h">
+    <ClCompile Include="GameObjects\Skull.h">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Player.h">
+    <ClCompile Include="GameObjects\Player.h">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
+    <ClCompile Include="GameObjects\Player.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
+    <ClCompile Include="GameObjects\Bullet.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="SkullGame.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Debug.h" />
-    <ClInclude Include="Bullet.h">
+    <ClInclude Include="Core\Debug.h" />
+    <ClInclude Include="GameObjects\Bullet.h">
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="SkullGame.h" />

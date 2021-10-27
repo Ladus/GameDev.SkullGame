@@ -147,18 +147,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="GameObject.h" />
+    <ClCompile Include="GameObjects\Bullet.cpp" />
+    <ClCompile Include="Core\GameObject.h" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Player.h" />
-    <ClCompile Include="Skull.cpp" />
-    <ClCompile Include="Skull.h" />
+    <ClCompile Include="GameObjects\Player.cpp" />
+    <ClCompile Include="GameObjects\Player.h" />
+    <ClCompile Include="GameObjects\Skull.cpp" />
+    <ClCompile Include="GameObjects\Skull.h" />
     <ClCompile Include="SkullGame.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Bullet.h" />
-    <ClInclude Include="Debug.h" />
+    <ClInclude Include="GameObjects\Bullet.h" />
+    <ClInclude Include="Core\Debug.h" />
     <ClInclude Include="SkullGame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

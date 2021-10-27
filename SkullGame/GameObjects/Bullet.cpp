@@ -1,4 +1,4 @@
-#include "Debug.h"
+#include "../Core/Debug.h"
 #include "Bullet.h"
 
 void Bullet::Update() {
