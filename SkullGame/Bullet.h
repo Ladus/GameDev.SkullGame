@@ -24,9 +24,7 @@ public:
 		, Speed(speed)
 	{ }
 
-	~Bullet() {
-
-	}
+	~Bullet() override = default;
 
 	void Update() override;
 	void Draw() override;

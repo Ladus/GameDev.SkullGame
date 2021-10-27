@@ -154,10 +154,12 @@
     <ClCompile Include="Player.h" />
     <ClCompile Include="Skull.cpp" />
     <ClCompile Include="Skull.h" />
+    <ClCompile Include="SkullGame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Debug.h" />
+    <ClInclude Include="SkullGame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

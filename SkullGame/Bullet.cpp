@@ -4,7 +4,7 @@
 void Bullet::Update() {
 
 	float deltaSpeed = Speed * GetFrameTime();
-	Vector2 V2DeltaSpeed = Vector2{ deltaSpeed, deltaSpeed };
+	auto V2DeltaSpeed = Vector2{ deltaSpeed, deltaSpeed };
 
 	Vector2 Displacement = Vector2Multiply(MovementDirection, V2DeltaSpeed);
 
