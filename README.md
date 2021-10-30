@@ -1,8 +1,8 @@
 # SkullGame
 
-A game in which the player's mouse cursor is followed by skulls.
+A game in you are followed by skulls. Shoot candy at the skulls to slow them down, and try to last as long as possible!
 
-![Screenshot 2021-10-23 162930](https://user-images.githubusercontent.com/14290060/138560628-c0beb0b3-2814-4292-962c-d6fde2e6e207.png)
+![image](https://user-images.githubusercontent.com/14290060/139536847-1652760c-0d53-4f5c-9607-ab22b09a7af4.png)
 
 # Credit
 
