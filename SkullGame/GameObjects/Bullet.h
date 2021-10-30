@@ -13,6 +13,7 @@ public:
 
 	// Position
 	Vector2 Position;
+	int Size = 16; // Size on screen 32x32 (not yet used for actual drawing, only for collision detection...
 	Vector2 MovementDirection;
 
 	float Speed;

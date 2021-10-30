@@ -13,10 +13,12 @@ public:
 	Texture2D* SkullTexture;
 
 	Vector2 Position;
+	int Size = 32; // Size on screen 32x32 (not yet used for actual drawing, only for collision detection...
 
 	float Speed = (float)GetRandomValue(2, 6) / 10;
 	float SpeedIncrement = (float)GetRandomValue(1, 10) / 10;
 	float SpeedLimit = (float)GetRandomValue(10, 40) / 10;
+	float Slowdown = 1; // value from 1 -> 0
 
 	float RotationSpeed = 0;
 	float RotationSpeedMax = (float)GetRandomValue(5, 10);

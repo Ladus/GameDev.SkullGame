@@ -32,45 +32,21 @@ void Player::Update() {
 	// Update Position
 	Position = Vector2Add(Position, Vector2Multiply(Vector2Multiply(MovementDirection, { Speed, Speed }), { GetFrameTime(), GetFrameTime() }));
 
+	// Add bullet to SkullGame bullet list
 	if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
-
 		Vector2 targetVector = Vector2Subtract(GetMousePosition(), Position);
 		targetVector = Vector2Normalize(targetVector);
 		targetVector = Vector2Add(targetVector, Vector2{ (float) GetRandomValue(-100,100) / 700, (float)GetRandomValue(-100,100) / 1000 });
 
-		BulletList.emplace_back(&BulletTexture, Vector2{ Position.x + 8, Position.y + 8 }, targetVector, (float)GetRandomValue(500, 820));
+		m_BulletList.emplace_back(&BulletTexture, Vector2{ Position.x + 8, Position.y + 8 }, targetVector, (float)GetRandomValue(500, 820));
 	}
-
-	std::list<Bullet>::iterator it;
-
-	for (it = BulletList.begin(); it != BulletList.end(); it++) {
-
-		it->Update();
-
-		if (it->Position.x < -20
-			|| it->Position.x >(float)GetScreenWidth() + 20
-			|| it->Position.y < -20
-			|| it->Position.y >(float)GetScreenHeight() + 20) {
-
-			it = BulletList.erase(it);
-			if (it == BulletList.end()) {
-				break;
-			}
-		}
-	}
-
 }
 
 void Player::Draw() {
 	DrawTextureEx(PlayerTexture, Position, 0, 4, WHITE);
 
-	// Draw all bullets
-	for (auto& bullet : BulletList) {
-		bullet.Draw();
-	}
-
 #ifdef DEBUG
-	DrawText(TextFormat("Debug: bullets %i ", BulletList.size()), 20, GetScreenHeight() - 50, 20, BLACK);
+	DrawText(TextFormat("Debug: bullets %i ", m_BulletList.size()), 20, GetScreenHeight() - 50, 20, BLACK);
 #endif // DEBUG
 
 }

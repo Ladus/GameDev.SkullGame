@@ -28,7 +28,7 @@ void SkullGame::Initialize() {
 	m_PlayerTexture = LoadTexture("Assets/candy_corn_stage.png");
 	m_BulletTexture = LoadTexture("Assets/candy_stage.png");
 
-	m_Player = std::make_unique<Player>(m_PlayerTexture, m_BulletTexture);
+	m_Player = std::make_unique<Player>(m_PlayerTexture, m_BulletTexture, m_BulletList);
 
 	Restart();
 }
@@ -55,7 +55,7 @@ void SkullGame::Update() {
 	}
 
 	m_TimeUntilSkullSpawn -= 1 * GetFrameTime();
-	
+
 	if (m_TimeUntilSkullSpawn < 0 && !m_Lost)
 	{
 		m_SkullList.emplace_back(&m_Player->Position, &m_SkullTexture);
@@ -65,36 +65,63 @@ void SkullGame::Update() {
 	// Player update
 	m_Player->Update();
 
-	// Skulls update
+	// Update bullets
+	std::list<Bullet>::iterator it;
+
+	for (it = m_BulletList.begin(); it != m_BulletList.end(); it++) {
+
+		it->Update();
+
+		// Remove bullet from the list once it goes outside of the screen
+		if (it->Position.x < -20
+			|| it->Position.x >(float)GetScreenWidth() + 20
+			|| it->Position.y < -20
+			|| it->Position.y >(float)GetScreenHeight() + 20) {
+
+			it = m_BulletList.erase(it);
+			if (it == m_BulletList.end()) {
+				// Stop loop if there are no bullets left
+				break;
+			}
+		}
+	}
+
+	// Update skulls
 	for (auto& skull : m_SkullList)
 	{
 		//Update skull movement
 		skull.Update();
 
-		// Lose if skull is too code
-		if (Vector2Distance(m_Player->Position, skull.Position) < 16) {
+		// Lose if skull is too close
+		if (m_Player->Position.x < skull.Position.x + (float)skull.Size
+			&& m_Player->Position.x + (float)m_Player->Size > skull.Position.x
+			&& m_Player->Position.y < skull.Position.y + (float)skull.Size
+			&& m_Player->Position.y + (float)m_Player->Size > skull.Position.y)
+		{
 			m_Lost = true;
 		}
 	}
 
+	// Calculate Bullet and skull collisions. On collision erase bullet, and slow skull down
+	HandleSkullBulletCollision();
+
 	// Lose if the player goes too close to the border
 	if (m_Player->Position.x < 10
-		|| (int)m_Player->Position.x > GetScreenWidth() - 10
+		|| (int)m_Player->Position.x + m_Player->Size > GetScreenWidth() - 10
 		|| m_Player->Position.y < 10
-		|| (int)m_Player->Position.y > GetScreenHeight() - 10)
+		|| (int)m_Player->Position.y + m_Player->Size > GetScreenHeight() - 10)
 	{
 		m_Lost = true;
 	}
 
-	// Score
+	// Add to score while game is going on
 	if (!m_Lost) {
 		m_Score += 1000 * GetFrameTime();
 	}
 }
 
 void SkullGame::Draw() {
-	// -------------------------------------------
-		// Draw
+	// Draw
 	BeginDrawing();
 
 	// Draw playing of lost screen
@@ -116,6 +143,11 @@ void SkullGame::Draw() {
 	// Draw player
 	m_Player->Draw();
 
+	// Draw all bullets
+	for (auto& bullet : m_BulletList) {
+		bullet.Draw();
+	}
+
 	//Draw skulls
 	for (auto& skull : m_SkullList)
 	{
@@ -130,3 +162,42 @@ void SkullGame::Draw() {
 
 	EndDrawing();
 }
+
+
+void SkullGame::HandleSkullBulletCollision() {
+	
+	// For each skull
+	for (Skull& skull : m_SkullList)
+	{
+		//for each bullet
+		std::list<Bullet>::iterator it;
+
+		for (it = m_BulletList.begin(); it != m_BulletList.end(); it++) {
+
+			// Collision is true if
+			bool collision = it->Position.x < skull.Position.x + (float)skull.Size
+				&& it->Position.x + (float)it->Size > skull.Position.x
+				&& it->Position.y < skull.Position.y + (float)skull.Size
+				&& (float)it->Size + it->Position.y > skull.Position.y;
+
+			// Remove bullet from the list upon collision
+			if (collision) {
+				// Clamp slowdown
+				skull.Slowdown = Clamp(skull.Slowdown - (1 * GetFrameTime()), 0, 1);
+
+				it = m_BulletList.erase(it);
+				if (it == m_BulletList.end()) {
+					// Break the loop if there are no bullets left
+					break;
+				}
+			}
+		}
+
+		// Lose if skull is too close
+		if (Vector2Distance(m_Player->Position, skull.Position) < 16) {
+			m_Lost = true;
+		}
+	}
+}
+
+// TODO: Make collision library. ( Box Collision / Easy vector math? )
