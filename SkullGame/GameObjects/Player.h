@@ -11,21 +11,25 @@
 
 class Player : public GameObject {
 public:
-	explicit Player(Texture2D& playerTexture, Texture2D& bulletTexture)
+	explicit Player(Texture2D& playerTexture, Texture2D& bulletTexture, std::list<Bullet>& bulletList)
 		: PlayerTexture(playerTexture)
-		, BulletTexture(bulletTexture) { }
+		, BulletTexture(bulletTexture)
+		, m_BulletList(bulletList) { }
 
 	void Update() override;
 	void Draw() override;
 
-	Texture2D PlayerTexture;
-	Texture2D BulletTexture;
+	Texture2D& PlayerTexture;
+	Texture2D& BulletTexture;
+	std::list<Bullet>& m_BulletList;
 
 	// Position
 	Vector2 Position = {
 		((float)GetScreenWidth() / 2) - ((float)PlayerTexture.width / 2),
 		((float)GetScreenHeight() / 2) - ((float)PlayerTexture.height / 2)
 	};
+	int Size = 32; // Size on screen 32x32 (not yet used for actual drawing, only for collision detection...
+
 	Vector2 MovementDirection = { 0, 0 };
 
 	// Movement speed
@@ -35,6 +39,4 @@ public:
 
 	// Aiming and firing
 	Vector2 MouseDirection = { 0, 1 };
-
-	std::list<Bullet> BulletList;
 };

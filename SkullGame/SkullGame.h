@@ -24,6 +24,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	void HandleSkullBulletCollision();
+
 private:
 	Color m_BackgroundColor = { 50, 36, 89, 255 };
 	Color m_BackgroundColorLost = { 102, 0, 0, 255 };
@@ -39,6 +41,10 @@ private:
 
 	// Player
 	std::unique_ptr<Player> m_Player;
+
+	// Bullets
+	std::list<Bullet> m_BulletList;
+
 
 	// Skulls
 	std::list<Skull> m_SkullList;
