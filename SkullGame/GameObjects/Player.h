@@ -27,11 +27,12 @@ public:
 	std::list<Bullet>& m_BulletList;
 
 	// Position
-	Vector2 Position = {
+	Rectangle Rect = {
 		((float)GetScreenWidth() / 2) - ((float)PlayerTexture.width / 2),
-		((float)GetScreenHeight() / 2) - ((float)PlayerTexture.height / 2)
+		((float)GetScreenHeight() / 2) - ((float)PlayerTexture.height / 2),
+		32,
+		32
 	};
-	int Size = 32; // Size on screen 32x32 (not yet used for actual drawing, only for collision detection...
 
 	Vector2 MovementDirection = { 0, 0 };
 

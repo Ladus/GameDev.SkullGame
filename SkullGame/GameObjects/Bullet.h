@@ -12,15 +12,14 @@ public:
 	Texture2D* ObjectTexture;
 
 	// Position
-	Vector2 Position;
-	int Size = 16; // Size on screen 32x32 (not yet used for actual drawing, only for collision detection...
+	Rectangle Rect = { 0, 0, 16, 16 };
 	Vector2 MovementDirection;
 
 	float Speed;
 
-	Bullet(Texture2D* objectTexture, Vector2 position, Vector2 direction, float speed)
+	Bullet(Texture2D* objectTexture, Rectangle rect, Vector2 direction, float speed)
 		: ObjectTexture(objectTexture)
-		, Position(position)
+		, Rect(rect)
 		, MovementDirection(direction)
 		, Speed(speed)
 	{

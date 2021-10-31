@@ -35,22 +35,24 @@ void Skull::Update()
 	Vector2 directionLeft = Vector2Rotate(Direction, -RotationSpeed * GetFrameTime());
 	Vector2 directionRight = Vector2Rotate(Direction, RotationSpeed * GetFrameTime());
 
-	Vector2 positionRight = Vector2Add(Position, Vector2Scale(directionRight, Speed * Slowdown));
-	Vector2 positionLeft = Vector2Add(Position, Vector2Scale(directionLeft, Speed * Slowdown));
+	Vector2 positionRight = Vector2Add({ Rect.x, Rect.y }, Vector2Scale(directionRight, Speed * Slowdown));
+	Vector2 positionLeft = Vector2Add({ Rect.x, Rect.y }, Vector2Scale(directionLeft, Speed * Slowdown));
 
-	if (Vector2Distance(positionRight, *TargetPosition) < Vector2Distance(positionLeft, *TargetPosition))
+	if (Vector2Distance(positionRight, { (*Target).x, (*Target).y }) < Vector2Distance(positionLeft, { (*Target).x, (*Target).y }))
 	{
 		Direction = directionRight;
-		Position = positionRight;
+		Rect.x = positionRight.x;
+		Rect.y = positionRight.y;
 	}
 	else
 	{
 		Direction = directionLeft;
-		Position = positionLeft;
+		Rect.x = positionLeft.x;
+		Rect.y = positionLeft.y;
 	}
 }
 
 void Skull::Draw()
 {
-	DrawTextureEx(*SkullTexture, Position, 0, 4, Color{ 255, (unsigned char)Lerp(0, 255, Slowdown),255,255 });
+	DrawTextureEx(*SkullTexture, { Rect.x, Rect.y }, 0, 4, Color{ 255, (unsigned char)Lerp(0, 255, Slowdown),255,255 });
 }

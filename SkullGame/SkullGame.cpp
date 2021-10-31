@@ -1,4 +1,5 @@
 #include "Core/Debug.h"
+#include "Core/Collision.h"
 
 #include "raylib.h"
 #include "raymath.h"
@@ -40,12 +41,12 @@ void SkullGame::Restart()
 	m_Lost = false;
 	m_Score = 0;
 
-	m_SkullList.emplace_back(&m_Player->Position, &m_SkullTexture);
+	m_SkullList.emplace_back(&m_Player->Rect, &m_SkullTexture);
 	m_TimeUntilSkullSpawn = 4;
 	m_SpawnMultiplier = 1.0f;
 
 	m_SkullList.clear();
-	m_SkullList.emplace_back(&m_Player->Position, &m_SkullTexture);
+	m_SkullList.emplace_back(&m_Player->Rect, &m_SkullTexture);
 }
 
 void SkullGame::Update()
@@ -64,7 +65,7 @@ void SkullGame::Update()
 
 	if (m_TimeUntilSkullSpawn < 0 && !m_Lost)
 	{
-		m_SkullList.emplace_back(&m_Player->Position, &m_SkullTexture);
+		m_SkullList.emplace_back(&m_Player->Rect, &m_SkullTexture);
 		m_TimeUntilSkullSpawn = ((float)GetRandomValue(1, 30) / 10) * m_SpawnMultiplier;
 	}
 
@@ -79,10 +80,14 @@ void SkullGame::Update()
 		it->Update();
 
 		// Remove bullet from the list once it goes outside of the screen
-		if (it->Position.x < -20
-			|| it->Position.x >(float)GetScreenWidth() + 20
-			|| it->Position.y < -20
-			|| it->Position.y >(float)GetScreenHeight() + 20)
+		if (!BoxCollision(
+			it->Rect,
+			{ 
+				-it->Rect.width,
+				-it->Rect.height,
+				(float)GetScreenWidth() + it->Rect.width,
+				(float)GetScreenHeight() + it->Rect.height
+			}))
 		{
 			it = m_BulletList.erase(it);
 			if (it == m_BulletList.end())
@@ -100,10 +105,7 @@ void SkullGame::Update()
 		skull.Update();
 
 		// Lose if skull is too close
-		if (m_Player->Position.x < skull.Position.x + (float)skull.Size
-			&& m_Player->Position.x + (float)m_Player->Size > skull.Position.x
-			&& m_Player->Position.y < skull.Position.y + (float)skull.Size
-			&& m_Player->Position.y + (float)m_Player->Size > skull.Position.y)
+		if(BoxCollision(m_Player->Rect, skull.Rect))
 		{
 			m_Lost = true;
 		}
@@ -113,10 +115,14 @@ void SkullGame::Update()
 	HandleSkullBulletCollision();
 
 	// Lose if the player goes too close to the border
-	if (m_Player->Position.x < 10
-		|| (int)m_Player->Position.x + m_Player->Size > GetScreenWidth() - 10
-		|| m_Player->Position.y < 10
-		|| (int)m_Player->Position.y + m_Player->Size > GetScreenHeight() - 10)
+	if (!BoxCollision(
+		m_Player->Rect,
+		{
+			10,
+			10,
+			(float)GetScreenWidth() - 20,
+			(float)GetScreenHeight() - 20
+		}))
 	{
 		m_Lost = true;
 	}
@@ -184,14 +190,8 @@ void SkullGame::HandleSkullBulletCollision()
 
 		for (it = m_BulletList.begin(); it != m_BulletList.end(); it++)
 		{
-			// Collision is true if
-			bool collision = it->Position.x < skull.Position.x + (float)skull.Size
-				&& it->Position.x + (float)it->Size > skull.Position.x
-				&& it->Position.y < skull.Position.y + (float)skull.Size
-				&& (float)it->Size + it->Position.y > skull.Position.y;
-
 			// Remove bullet from the list upon collision
-			if (collision)
+			if (BoxCollision(it->Rect, skull.Rect))
 			{
 				// Clamp slowdown
 				skull.Slowdown = Clamp(skull.Slowdown - (1 * GetFrameTime()), 0, 1);
@@ -203,12 +203,6 @@ void SkullGame::HandleSkullBulletCollision()
 					break;
 				}
 			}
-		}
-
-		// Lose if skull is too close
-		if (Vector2Distance(m_Player->Position, skull.Position) < 16)
-		{
-			m_Lost = true;
 		}
 	}
 }
