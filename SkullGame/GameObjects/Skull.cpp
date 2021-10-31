@@ -7,20 +7,25 @@
 #include "../Core/GameObject.h"
 #include "Skull.h"
 
-void Skull::Update() {
+void Skull::Update()
+{
 	// Local time
-	if (LocalTimeUp && LocalTime < LocalTimeMax) {
+	if (LocalTimeUp && LocalTime < LocalTimeMax)
+	{
 		LocalTime += GetFrameTime();
 	}
-	else if (!LocalTimeUp && LocalTime > 0) {
+	else if (!LocalTimeUp && LocalTime > 0)
+	{
 		LocalTime -= GetFrameTime();
 	}
-	else {
+	else
+	{
 		LocalTimeUp = !LocalTimeUp;
 	}
 
 	// Slowly increase speed
-	if (Speed < SpeedLimit) {
+	if (Speed < SpeedLimit)
+	{
 		Speed += SpeedIncrement * GetFrameTime();
 	}
 
@@ -33,16 +38,19 @@ void Skull::Update() {
 	Vector2 positionRight = Vector2Add(Position, Vector2Scale(directionRight, Speed * Slowdown));
 	Vector2 positionLeft = Vector2Add(Position, Vector2Scale(directionLeft, Speed * Slowdown));
 
-	if (Vector2Distance(positionRight, *TargetPosition) < Vector2Distance(positionLeft, *TargetPosition)) {
+	if (Vector2Distance(positionRight, *TargetPosition) < Vector2Distance(positionLeft, *TargetPosition))
+	{
 		Direction = directionRight;
 		Position = positionRight;
 	}
-	else {
+	else
+	{
 		Direction = directionLeft;
 		Position = positionLeft;
 	}
 }
 
-void Skull::Draw() {
+void Skull::Draw()
+{
 	DrawTextureEx(*SkullTexture, Position, 0, 4, Color{ 255, (unsigned char)Lerp(0, 255, Slowdown),255,255 });
 }

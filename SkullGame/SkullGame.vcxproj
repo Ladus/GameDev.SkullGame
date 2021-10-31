@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Collision.cpp" />
     <ClCompile Include="GameObjects\Bullet.cpp" />
     <ClCompile Include="Core\GameObject.h" />
     <ClCompile Include="Main.cpp" />
@@ -157,6 +158,7 @@
     <ClCompile Include="SkullGame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Collision.h" />
     <ClInclude Include="GameObjects\Bullet.h" />
     <ClInclude Include="Core\Debug.h" />
     <ClInclude Include="SkullGame.h" />

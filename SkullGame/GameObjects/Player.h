@@ -9,12 +9,15 @@
 #include "../Core/GameObject.h"
 #include "Bullet.h"
 
-class Player : public GameObject {
+class Player : public GameObject
+{
 public:
 	explicit Player(Texture2D& playerTexture, Texture2D& bulletTexture, std::list<Bullet>& bulletList)
 		: PlayerTexture(playerTexture)
 		, BulletTexture(bulletTexture)
-		, m_BulletList(bulletList) { }
+		, m_BulletList(bulletList)
+	{
+	}
 
 	void Update() override;
 	void Draw() override;

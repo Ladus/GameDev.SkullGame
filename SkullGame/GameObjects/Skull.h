@@ -6,7 +6,8 @@
 
 #include "../Core/GameObject.h"
 
-class Skull : public GameObject {
+class Skull : public GameObject
+{
 public:
 
 	Vector2* TargetPosition;
@@ -31,10 +32,12 @@ public:
 
 	explicit Skull(Vector2* targetPosition, Texture2D* skullTexture)
 		: TargetPosition(targetPosition)
-		, SkullTexture(skullTexture) {
+		, SkullTexture(skullTexture)
+	{
 
 		int spawnDirection = GetRandomValue(1, 4);
-		switch (spawnDirection) {
+		switch (spawnDirection)
+		{
 		case 1:
 			Position = { (float)GetRandomValue(0, GetScreenWidth()), -8.0f };
 			break;

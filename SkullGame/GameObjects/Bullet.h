@@ -23,7 +23,8 @@ public:
 		, Position(position)
 		, MovementDirection(direction)
 		, Speed(speed)
-	{ }
+	{
+	}
 
 	~Bullet() override = default;
 
