@@ -1,15 +1,4 @@
-#include "Core/Debug.h"
-#include "Core/Collision.h"
-
-#include "raylib.h"
-#include "raymath.h"
-
 #include "SkullGame.h"
-
-#include "GameObjects/Skull.h"
-#include "GameObjects/Player.h"
-#include <list>
-#include <memory>
 
 SkullGame::SkullGame() = default;
 
@@ -51,52 +40,37 @@ void SkullGame::Restart()
 
 void SkullGame::Update()
 {
+	// Restart if R is pressed
 	if (GetKeyPressed() == KEY_R)
 	{
 		Restart();
 	}
 
+	// Slowly increase spawn rate of skulls
 	if (m_SpawnMultiplier > 0.1)
 	{
 		m_SpawnMultiplier -= 0.015f * GetFrameTime();
 	}
 
 	m_TimeUntilSkullSpawn -= 1 * GetFrameTime();
-
+	
 	if (m_TimeUntilSkullSpawn < 0 && !m_Lost)
 	{
 		m_SkullList.emplace_back(&m_Player->Rect, &m_SkullTexture);
 		m_TimeUntilSkullSpawn = ((float)GetRandomValue(1, 30) / 10) * m_SpawnMultiplier;
 	}
 
+	// Add to score while game is going on
+	if (!m_Lost)
+	{
+		m_Score += 1000 * GetFrameTime();
+	}
+
 	// Player update
 	m_Player->Update();
 
 	// Update bullets
-	std::list<Bullet>::iterator it;
-
-	for (it = m_BulletList.begin(); it != m_BulletList.end(); it++)
-	{
-		it->Update();
-
-		// Remove bullet from the list once it goes outside of the screen
-		if (!BoxCollision(
-			it->Rect,
-			{ 
-				-it->Rect.width,
-				-it->Rect.height,
-				(float)GetScreenWidth() + it->Rect.width,
-				(float)GetScreenHeight() + it->Rect.height
-			}))
-		{
-			it = m_BulletList.erase(it);
-			if (it == m_BulletList.end())
-			{
-				// Stop loop if there are no bullets left
-				break;
-			}
-		}
-	}
+	UpdateBullets(m_BulletList);
 
 	// Update skulls
 	for (auto& skull : m_SkullList)
@@ -112,26 +86,7 @@ void SkullGame::Update()
 	}
 
 	// Calculate Bullet and skull collisions. On collision erase bullet, and slow skull down
-	HandleSkullBulletCollision();
-
-	// Lose if the player goes too close to the border
-	if (!BoxCollision(
-		m_Player->Rect,
-		{
-			10,
-			10,
-			(float)GetScreenWidth() - 20,
-			(float)GetScreenHeight() - 20
-		}))
-	{
-		m_Lost = true;
-	}
-
-	// Add to score while game is going on
-	if (!m_Lost)
-	{
-		m_Score += 1000 * GetFrameTime();
-	}
+	HandleSkullBulletCollision(m_SkullList, m_BulletList);
 }
 
 void SkullGame::Draw()
@@ -173,36 +128,9 @@ void SkullGame::Draw()
 	}
 
 	// Debug
-#ifdef DEBUG
-	DrawText(TextFormat("TimeToSpawn: %f", m_TimeUntilSkullSpawn), 20, 420, 20, m_TextColor);
-#endif // DEBUG
+//#ifdef DEBUG
+//	DrawText(TextFormat("TimeToSpawn: %f", m_TimeUntilSkullSpawn), 20, 420, 20, m_TextColor);
+//#endif
 
 	EndDrawing();
-}
-
-void SkullGame::HandleSkullBulletCollision()
-{
-	// For each skull
-	for (Skull& skull : m_SkullList)
-	{
-		//for each bullet
-		std::list<Bullet>::iterator it;
-
-		for (it = m_BulletList.begin(); it != m_BulletList.end(); it++)
-		{
-			// Remove bullet from the list upon collision
-			if (BoxCollision(it->Rect, skull.Rect))
-			{
-				// Clamp slowdown
-				skull.Slowdown = Clamp(skull.Slowdown - (1 * GetFrameTime()), 0, 1);
-
-				it = m_BulletList.erase(it);
-				if (it == m_BulletList.end())
-				{
-					// Break the loop if there are no bullets left
-					break;
-				}
-			}
-		}
-	}
 }

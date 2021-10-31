@@ -45,8 +45,11 @@ void Player::Update()
 		)
 	);
 
-	Rect.x = position.x;
-	Rect.y = position.y;
+	// Only update player position if it is still within the screen
+	if (position.x > 10 && (int)position.x + (int)Rect.width < GetScreenWidth() - 10)
+		Rect.x = position.x;
+	if (position.y > 10 && (int)position.y + (int)Rect.height < GetScreenHeight() - 10)
+		Rect.y = position.y;
 
 	// Add bullet to SkullGame bullet list
 	if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
@@ -56,7 +59,7 @@ void Player::Update()
 
 		Vector2 randomTargetVector = { 0.0f, 0.0f };
 
-		int amountOfBullets = (int) (GetFrameTime() * 100);
+		auto amountOfBullets = (int) (GetFrameTime() * 500);
 		for (int x = 0; x < amountOfBullets; x++)
 		{
 			randomTargetVector = Vector2Add(targetVector, Vector2{ (float)GetRandomValue(-100,100) / 700, (float)GetRandomValue(-100,100) / 1000 });
