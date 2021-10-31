@@ -14,6 +14,7 @@
     </ClCompile>
     <ClCompile Include="SkullGame.cpp" />
     <ClCompile Include="Core\Collision.cpp" />
+    <ClCompile Include="Managers\ObjectManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Debug.h" />
@@ -28,6 +29,7 @@
     <ClInclude Include="GameObjects\Skull.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Managers\ObjectManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Objects">
