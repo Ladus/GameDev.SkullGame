@@ -9,10 +9,12 @@ void Bullet::Update()
 
 	Vector2 Displacement = Vector2Multiply(MovementDirection, V2DeltaSpeed);
 
-	Position = Vector2Add(Position, Displacement);
+	Vector2 position = Vector2Add({ Rect.x, Rect.y }, Displacement);
+	Rect.x = position.x;
+	Rect.y = position.y;
 }
 
 void Bullet::Draw()
 {
-	DrawTextureEx(*ObjectTexture, Position, 0, 2, WHITE);
+	DrawTextureEx(*ObjectTexture, { Rect.x, Rect.y }, 0, 2, WHITE);
 }

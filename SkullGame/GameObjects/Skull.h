@@ -10,11 +10,10 @@ class Skull : public GameObject
 {
 public:
 
-	Vector2* TargetPosition;
+	Rectangle* Target;
 	Texture2D* SkullTexture;
 
-	Vector2 Position;
-	int Size = 32; // Size on screen 32x32 (not yet used for actual drawing, only for collision detection...
+	Rectangle Rect = { 0, 0, 32, 32 };
 
 	float Speed = (float)GetRandomValue(2, 6) / 10;
 	float SpeedIncrement = (float)GetRandomValue(1, 10) / 10;
@@ -30,28 +29,31 @@ public:
 
 	Vector2 Direction = { 0, 1 };
 
-	explicit Skull(Vector2* targetPosition, Texture2D* skullTexture)
-		: TargetPosition(targetPosition)
+	explicit Skull(Rectangle* target, Texture2D* skullTexture)
+		: Target(target)
 		, SkullTexture(skullTexture)
 	{
-
 		int spawnDirection = GetRandomValue(1, 4);
 		switch (spawnDirection)
 		{
 		case 1:
-			Position = { (float)GetRandomValue(0, GetScreenWidth()), -8.0f };
+			Rect.x = (float)GetRandomValue(0, GetScreenWidth());
+			Rect.y = -8.0f;
 			break;
 		case 2:
-			Position = { (float)GetScreenWidth(), (float)GetRandomValue(0, GetScreenHeight()) };
+			Rect.x = (float)GetScreenWidth();
+			Rect.y = (float)GetRandomValue(0, GetScreenHeight());
 			break;
 		case 3:
-			Position = { (float)GetRandomValue(0, GetScreenWidth()), (float)GetScreenHeight() + 8.0f };
+			Rect.x = (float)GetRandomValue(0, GetScreenWidth());
+			Rect.y = (float)GetScreenHeight() + 8.0f;
 			break;
 		case 4:
-			Position = { -8.0f, (float)GetRandomValue(0, GetScreenHeight()) };
+			Rect.x = -8.0f;
+			Rect.y = (float)GetRandomValue(0, GetScreenHeight());
 			break;
 		default:
-			Position = { (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 };
+			break;
 		}
 	}
 

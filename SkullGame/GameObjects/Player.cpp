@@ -37,20 +37,38 @@ void Player::Update()
 	}
 
 	// Update Position
-	Position = Vector2Add(Position, Vector2Multiply(Vector2Multiply(MovementDirection, { Speed, Speed }), { GetFrameTime(), GetFrameTime() }));
+	Vector2 position = Vector2Add(
+		{ Rect.x, Rect.y },
+		Vector2Multiply(
+			Vector2Multiply(MovementDirection, { Speed, Speed }),
+			{ GetFrameTime(), GetFrameTime() }
+		)
+	);
+
+	Rect.x = position.x;
+	Rect.y = position.y;
 
 	// Add bullet to SkullGame bullet list
 	if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
 	{
-		Vector2 targetVector = Vector2Subtract(GetMousePosition(), Position);
+		Vector2 targetVector = Vector2Subtract(GetMousePosition(), { Rect.x, Rect.y });
 		targetVector = Vector2Normalize(targetVector);
-		targetVector = Vector2Add(targetVector, Vector2{ (float)GetRandomValue(-100,100) / 700, (float)GetRandomValue(-100,100) / 1000 });
 
-		m_BulletList.emplace_back(&BulletTexture, Vector2{ Position.x + 8, Position.y + 8 }, targetVector, (float)GetRandomValue(500, 820));
+		Vector2 randomTargetVector = { 0.0f, 0.0f };
+
+		// TODO: Shoot from center of player
+		// TODO: Collision box of skull too large??
+
+		int amountOfBullets = (int) (GetFrameTime() * 1000);
+		for (int x = 0; x < amountOfBullets; x++)
+		{
+			randomTargetVector = Vector2Add(targetVector, Vector2{ (float)GetRandomValue(-100,100) / 700, (float)GetRandomValue(-100,100) / 1000 });
+			m_BulletList.emplace_back(&BulletTexture, Rect, randomTargetVector, (float)GetRandomValue(500, 820));
+		}
 	}
 }
 
 void Player::Draw()
 {
-	DrawTextureEx(PlayerTexture, Position, 0, 4, WHITE);
+	DrawTextureEx(PlayerTexture, { Rect.x, Rect.y }, 0, 4, WHITE);
 }
