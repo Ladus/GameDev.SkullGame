@@ -48,7 +48,6 @@ private:
 	// Bullets
 	std::list<Bullet> m_BulletList;
 
-
 	// Skulls
 	std::list<Skull> m_SkullList;
 	float m_TimeUntilSkullSpawn;
