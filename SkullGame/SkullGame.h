@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Debug.h"
+#include "Core/Collision.h"
 
 #include <memory>
 
@@ -10,6 +11,10 @@
 #include "Core/GameObject.h"
 #include "GameObjects/Player.h"
 #include "GameObjects/Skull.h"
+
+#include <list>
+#include <memory>
+#include "Managers/ObjectManager.h"
 
 
 class SkullGame : public GameObject
@@ -23,8 +28,6 @@ public:
 
 	void Update() override;
 	void Draw() override;
-
-	void HandleSkullBulletCollision();
 
 private:
 	Color m_BackgroundColor = { 50, 36, 89, 255 };
@@ -44,7 +47,6 @@ private:
 
 	// Bullets
 	std::list<Bullet> m_BulletList;
-
 
 	// Skulls
 	std::list<Skull> m_SkullList;

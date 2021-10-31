@@ -6,12 +6,6 @@
     <ClCompile Include="GameObjects\Skull.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="GameObjects\Skull.h">
-      <Filter>Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObjects\Player.h">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="GameObjects\Player.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
@@ -19,6 +13,8 @@
       <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="SkullGame.cpp" />
+    <ClCompile Include="Core\Collision.cpp" />
+    <ClCompile Include="Managers\ObjectManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Debug.h" />
@@ -26,6 +22,14 @@
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="SkullGame.h" />
+    <ClInclude Include="Core\Collision.h" />
+    <ClInclude Include="GameObjects\Player.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Skull.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers\ObjectManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Objects">

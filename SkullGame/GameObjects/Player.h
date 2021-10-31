@@ -9,27 +9,33 @@
 #include "../Core/GameObject.h"
 #include "Bullet.h"
 
-class Player : public GameObject {
+class Player : public GameObject
+{
 public:
 	explicit Player(Texture2D& playerTexture, Texture2D& bulletTexture, std::list<Bullet>& bulletList)
 		: PlayerTexture(playerTexture)
 		, BulletTexture(bulletTexture)
-		, m_BulletList(bulletList) { }
+		, m_BulletList(bulletList)
+	{
+		Rect = {
+			((float)GetScreenWidth() / 2) - ((float)PlayerTexture.width / 2),
+			((float)GetScreenHeight() / 2) - ((float)PlayerTexture.height / 2),
+			32,
+			32
+		};
+		TextureScale = (float)((int)Rect.width / PlayerTexture.width);
+	}
 
 	void Update() override;
 	void Draw() override;
 
 	Texture2D& PlayerTexture;
+	float TextureScale;
 	Texture2D& BulletTexture;
 	std::list<Bullet>& m_BulletList;
 
 	// Position
-	Vector2 Position = {
-		((float)GetScreenWidth() / 2) - ((float)PlayerTexture.width / 2),
-		((float)GetScreenHeight() / 2) - ((float)PlayerTexture.height / 2)
-	};
-	int Size = 32; // Size on screen 32x32 (not yet used for actual drawing, only for collision detection...
-
+	Rectangle Rect;
 	Vector2 MovementDirection = { 0, 0 };
 
 	// Movement speed
