@@ -19,6 +19,7 @@
       <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="SkullGame.cpp" />
+    <ClCompile Include="Core\Collision.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Debug.h" />
@@ -26,6 +27,7 @@
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="SkullGame.h" />
+    <ClInclude Include="Core\Collision.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Objects">
