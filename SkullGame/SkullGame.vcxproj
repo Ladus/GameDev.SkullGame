@@ -152,9 +152,9 @@
     <ClCompile Include="Core\GameObject.h" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="GameObjects\Player.cpp" />
-    <ClCompile Include="GameObjects\Player.h" />
+    <ClInclude Include="GameObjects\Player.h" />
     <ClCompile Include="GameObjects\Skull.cpp" />
-    <ClCompile Include="GameObjects\Skull.h" />
+    <ClInclude Include="GameObjects\Skull.h" />
     <ClCompile Include="SkullGame.cpp" />
   </ItemGroup>
   <ItemGroup>

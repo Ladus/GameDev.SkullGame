@@ -23,6 +23,8 @@ public:
 		, MovementDirection(direction)
 		, Speed(speed)
 	{
+		Rect.height = 16;
+		Rect.width = 16;
 	}
 
 	~Bullet() override = default;

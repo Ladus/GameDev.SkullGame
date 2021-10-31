@@ -6,12 +6,6 @@
     <ClCompile Include="GameObjects\Skull.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="GameObjects\Skull.h">
-      <Filter>Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObjects\Player.h">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="GameObjects\Player.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
@@ -28,6 +22,12 @@
     </ClInclude>
     <ClInclude Include="SkullGame.h" />
     <ClInclude Include="Core\Collision.h" />
+    <ClInclude Include="GameObjects\Player.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Skull.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Objects">
