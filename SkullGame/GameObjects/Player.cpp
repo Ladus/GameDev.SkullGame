@@ -56,19 +56,20 @@ void Player::Update()
 
 		Vector2 randomTargetVector = { 0.0f, 0.0f };
 
-		// TODO: Shoot from center of player
-		// TODO: Collision box of skull too large??
-
-		int amountOfBullets = (int) (GetFrameTime() * 1000);
+		int amountOfBullets = (int) (GetFrameTime() * 100);
 		for (int x = 0; x < amountOfBullets; x++)
 		{
 			randomTargetVector = Vector2Add(targetVector, Vector2{ (float)GetRandomValue(-100,100) / 700, (float)GetRandomValue(-100,100) / 1000 });
-			m_BulletList.emplace_back(&BulletTexture, Rect, randomTargetVector, (float)GetRandomValue(500, 820));
+			m_BulletList.emplace_back(
+				&BulletTexture, 
+				Rectangle { Rect.x + (Rect.width/2), Rect.y + (Rect.height / 2), 0.0f, 0.0f}, 
+				randomTargetVector, 
+				(float)GetRandomValue(500, 820));
 		}
 	}
 }
 
 void Player::Draw()
 {
-	DrawTextureEx(PlayerTexture, { Rect.x, Rect.y }, 0, 4, WHITE);
+	DrawTextureEx(PlayerTexture, { Rect.x, Rect.y }, 0, TextureScale, WHITE);
 }

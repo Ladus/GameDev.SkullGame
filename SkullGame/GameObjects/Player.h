@@ -17,23 +17,25 @@ public:
 		, BulletTexture(bulletTexture)
 		, m_BulletList(bulletList)
 	{
+		Rect = {
+			((float)GetScreenWidth() / 2) - ((float)PlayerTexture.width / 2),
+			((float)GetScreenHeight() / 2) - ((float)PlayerTexture.height / 2),
+			32,
+			32
+		};
+		TextureScale = (float)((int)Rect.width / PlayerTexture.width);
 	}
 
 	void Update() override;
 	void Draw() override;
 
 	Texture2D& PlayerTexture;
+	float TextureScale;
 	Texture2D& BulletTexture;
 	std::list<Bullet>& m_BulletList;
 
 	// Position
-	Rectangle Rect = {
-		((float)GetScreenWidth() / 2) - ((float)PlayerTexture.width / 2),
-		((float)GetScreenHeight() / 2) - ((float)PlayerTexture.height / 2),
-		32,
-		32
-	};
-
+	Rectangle Rect;
 	Vector2 MovementDirection = { 0, 0 };
 
 	// Movement speed
